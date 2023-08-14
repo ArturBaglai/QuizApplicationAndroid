@@ -63,12 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer4.setOnClickListener(this);
         pointsTextView = (TextView)findViewById(R.id.pointsTextView);
         imageView=(ImageView)findViewById(R.id.imageView);
-
-        //floatingActionButton =(FloatingActionButton)findViewById(R.id.floatingActionButton);
-        //Question question = new Question();
+        
         imageButtonTip = (ImageButton)findViewById(R.id.imageButtonTip);
         imageButtonTip.setOnClickListener(this);
-       // for( Question question : Questions){
+      
         if(Questions.get(number).getQuestionAsked()==false){
             //Questions.get(number).setQuestionAsked(true);
             title =  Questions.get(number).getTitle();
@@ -76,49 +74,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             picture = Questions.get(number).getImage();
             imageView.setImageResource(picture);
 
-
             answer1.setText(answersArray[0]);
             answer2.setText(answersArray[1]);
             answer3.setText(answersArray[2]);
             answer4.setText(answersArray[3]);
 
         }
-
-
-
-
-        //}
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(Tag,"Main  Activity становится видимым");
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(Tag,"Main  Activity resumed");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(Tag,"Main  Activity приостановлено (состояние Pased)");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(Tag,"Main  Activity остановлено (состояние Stop)");
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(Tag,"Main  Activity унечтожено");
-    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
@@ -126,33 +90,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         outState.putInt("picture",picture);
         outState.putString("arrayAnswers", String.valueOf(answersArray));
         outState.putString("questionTitle",title);
-
-       // Log.d(Tag, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-         points = savedInstanceState.getInt("points");
+        points = savedInstanceState.getInt("points");
         String score = new Integer(points).toString();
         pointsTextView.setText("Score: "+score);
-
-        //picture = savedInstanceState.getInt("picture");
         imageView.setImageResource(picture);
 
-
-
-        //answersArray=savedInstanceState.getStringArray("arrayAnswers");
-
-       // answer1.setText(answersArray[0]);
-      //  answer2.setText(answersArray[1]);
-      //  answer3.setText(answersArray[2]);
-       // answer4.setText(answersArray[3]);
-
         title = savedInstanceState.getString("questionTitle");
-        //questionView.setText(title);
-       // Log.d(Tag, points);
+       
     }
     @Override
     public void onClick(View view){
@@ -166,8 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         points = points+5;
                         String score = new Integer(points).toString();
                         pointsTextView.setText("Score: "+score);
-                        //Intent intent = new Intent(this,MainActivity.class);
-                        // startActivity(intent);
                         recreate();
                     } else if (tipsButtonIsCLicked==true){
                         String score = new Integer(points).toString();
@@ -175,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         recreate();
                     }
 
-                    //intent.putExtra("score",answer1.getText().toString());
-                   // startActivity(intent);
                 } else if (findIndex(answersArray,UserAnswer) != trueAnswer){
                     if(points >0){
                         points = points -5;
@@ -197,15 +143,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         points = points+5;
                         String score = new Integer(points).toString();
                         pointsTextView.setText("Score: "+score);
-                        //Intent intent = new Intent(this,MainActivity.class);
-                        // startActivity(intent);
                         recreate();
                     } else if (tipsButtonIsCLicked==true){
                         String score = new Integer(points).toString();
                         pointsTextView.setText("Score: "+score);
                         recreate();
                     }
-                }else if (findIndex(answersArray,UserAnswer) != trueAnswer){
+                } else if (findIndex(answersArray,UserAnswer) != trueAnswer){
                     if(points >0){
                         points = points -5;
                     } else if(points<0){
@@ -224,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         points = points+5;
                         String score = new Integer(points).toString();
                         pointsTextView.setText("Score: "+score);
-                        //Intent intent = new Intent(this,MainActivity.class);
-                        // startActivity(intent);
                         recreate();
                     } else if (tipsButtonIsCLicked==true){
                         String score = new Integer(points).toString();
@@ -251,21 +193,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         points = points+5;
                         String score = new Integer(points).toString();
                         pointsTextView.setText("Score: "+score);
-                        //Intent intent = new Intent(this,MainActivity.class);
-                        // startActivity(intent);
                         recreate();
                     } else if (tipsButtonIsCLicked==true){
                         String score = new Integer(points).toString();
                         pointsTextView.setText("Score: "+score);
                         recreate();
                     }
-                }else if (findIndex(answersArray,UserAnswer) != trueAnswer){
-                    if(points >0){
-                        points = points -5;
-                    } else if(points<0){
-                        points =0;
-                    }
-
+                    } else if (findIndex(answersArray,UserAnswer) != trueAnswer){
+                        if(points >0){
+                            points = points -5;
+                        } else if(points<0){
+                            points =0;
+                        }
                     String score = new Integer(points).toString();
                     pointsTextView.setText("Score: "+score);
                     recreate();
@@ -273,7 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.imageButtonTip:
                 tipsButtonIsCLicked = true;
-                Toast toast = Toast.makeText(MainActivity.this,findTrueAnswer(answersArray, Questions.get(number).getTrueAnswer()),Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(
+                    MainActivity.this,findTrueAnswer(answersArray, Questions.get(number)
+                                                     .getTrueAnswer()),Toast.LENGTH_LONG);
                 toast.show();
                 break;
         }
